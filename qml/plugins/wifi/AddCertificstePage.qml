@@ -41,15 +41,13 @@ Page {
         {
             id: pathText
             placeholderText: qsTr("Select file")
-        }
-
-        Button
-        {
-            height: Theme.itemHeightSmall
-            text: qsTr("Select file")
-            onClicked:
+            MouseArea
             {
-                fileView.visible = true
+                anchors.fill: parent
+                onClicked:
+                {
+                    fileView.visible = true
+                }
             }
         }
 
@@ -82,7 +80,7 @@ Page {
             {
                 if (certificateType)
                 {
-                    cert.addCertificate(nameText.text, pathText.text)
+                    cert.addCertificate(nameText.text, pathText.text, 0)
                 }
                 pageStack.pop()
             }

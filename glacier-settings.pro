@@ -73,7 +73,8 @@ wifiplugin.files = qml/plugins/wifi/wifi.qml\
                    qml/plugins/wifi/NetworkDelegate.qml \
                    qml/plugins/wifi/AddNetworkPage.qml \
                    qml/plugins/wifi/SavedCertificates.qml \
-                   qml/plugins/wifi/AddCertificstePage.qml
+                   qml/plugins/wifi/AddCertificstePage.qml \
+                   qml/plugins/wifi/CertificateInfo.qml
 
 wifiplugin.path = /usr/share/glacier-settings/qml/plugins/wifi
 
@@ -162,4 +163,5 @@ DISTFILES += \
     qml/plugins/wifi/NetworkDelegate.qml \
     qml/plugins/wifi/AddNetworkPage.qml \
     qml/plugins/wifi/SavedCertificates.qml \
-    qml/plugins/wifi/AddCertificstePage.qml
+    qml/plugins/wifi/AddCertificstePage.qml \
+    qml/plugins/wifi/CertificateInfo.qml

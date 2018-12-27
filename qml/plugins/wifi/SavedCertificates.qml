@@ -66,6 +66,10 @@ Page {
                 model: cert.certList
                 delegate: ListViewItemWithActions{
                     label: modelData
+                    onClicked:
+                    {
+                        pageStack.push(Qt.resolvedUrl("CertificateInfo.qml"),{name: modelData})
+                    }
                 }
             }
 

@@ -12,9 +12,10 @@ public:
     Certificates(QObject* = nullptr);
 
 public slots:
-    void addCertificate(QString name, QString path);
-    QString getPathByName(QString name);
+    void addCertificate(QString name, QString path, int type);
+    QString getPathByName(QString name, int type);
     QStringList certList();
+    void removeCertificate(QString name, int type);
 signals:
     void certListChanged();
 };

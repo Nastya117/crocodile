@@ -13,11 +13,20 @@ Certificates::Certificates(QObject *)
 
 }
 
-void Certificates::addCertificate(QString name, QString path)
+void Certificates::addCertificate(QString name, QString path, int type)
 {
     QString location = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     QDir().mkpath(location + "/cert");
-    QString Path = location + "/cert/file.json";
+    QString Path;
+    if (type == 0)
+        Path = location + "/cert/file.json";
+    else
+        if (type == 1)
+            Path = location + "/cert/public.json";
+    else
+            if (type == 2)
+                Path = location + "/cert/private.json";
+
     QFile f(Path);
     f.open(QFile::ReadOnly | QFile::Text);
 
@@ -35,11 +44,19 @@ void Certificates::addCertificate(QString name, QString path)
     certListChanged();
 }
 
-QString Certificates::getPathByName(QString name)
+QString Certificates::getPathByName(QString name, int type)
 {
     QString location = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     QDir().mkpath(location + "/cert");
-    QString Path = location + "/cert/file.json";
+    QString Path;
+    if (type == 0)
+        Path = location + "/cert/file.json";
+    else
+        if (type == 1)
+            Path = location + "/cert/public.json";
+    else
+            if (type == 2)
+                Path = location + "/cert/private.json";
     QFile f(Path);
     f.open(QFile::ReadOnly);
     QJsonDocument doc = QJsonDocument().fromJson(f.readAll());
@@ -59,4 +76,33 @@ QStringList Certificates::certList()
     qDebug() << doc.object().keys();
 
     return doc.object().keys();
+}
+
+void Certificates::removeCertificate(QString name, int type)
+{
+    QString location = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString Path;
+    if (type == 0)
+        Path = location + "/cert/file.json";
+    else
+        if (type == 1)
+            Path = location + "/cert/public.json";
+    else
+            if (type == 2)
+                Path = location + "/cert/private.json";
+    QFile f(Path);
+    f.open(QFile::ReadOnly | QFile::Text);
+
+    QJsonDocument doc = QJsonDocument::fromJson(f.readAll());
+
+    f.close();
+    f.open(QFile::WriteOnly | QFile::Text);
+
+    QJsonObject o = doc.object();
+    o.remove(name);
+
+    doc.setObject(o);
+    f.write(doc.toJson());
+    f.close();
+    certListChanged();
 }

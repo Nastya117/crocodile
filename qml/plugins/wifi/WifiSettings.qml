@@ -120,7 +120,7 @@ Page {
                 }
                 else
                     if (modelData.security[0] == "ieee8021x")
-                        modelData.caCertFile = cert.getPathByName(certificate.text)
+                        modelData.caCertFile = cert.getPathByName(certificate.text, 0)
 
                 modelData.requestConnect();
                 networkingModel.networkName.text = modelData.name;
