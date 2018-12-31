@@ -16,6 +16,7 @@ Page {
     id: addCertificates
 
     property bool certificateType
+    property int certType
 
     headerTools: HeaderToolsLayout{
         id: header
@@ -39,6 +40,7 @@ Page {
 
         TextField
         {
+            visible: certificateType
             id: pathText
             placeholderText: qsTr("Select file")
             MouseArea
@@ -47,6 +49,7 @@ Page {
                 onClicked:
                 {
                     fileView.visible = true
+                    certType = 0
                 }
             }
         }
@@ -54,22 +57,35 @@ Page {
 
         TextField
         {
+            id: pub
             visible: !certificateType
             placeholderText: qsTr("Path to public key")
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    fileView.visible = true
+                    certType = 1
+                }
+            }
         }
 
 
         TextField
         {
+            id: priv
             visible: !certificateType
             placeholderText: qsTr("Path to private key")
-        }
-
-
-        TextField
-        {
-            visible: !certificateType
-            placeholderText: qsTr("Passphrase")
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    fileView.visible = true
+                    certType = 2
+                }
+            }
         }
 
 
@@ -79,9 +95,13 @@ Page {
             onClicked:
             {
                 if (certificateType)
-                {
                     cert.addCertificate(nameText.text, pathText.text, 0)
+                else
+                {
+                    cert.addCertificate(nameText.text, pub.text, 1)
+                    cert.addCertificate(nameText.text, priv.text, 2)
                 }
+
                 pageStack.pop()
             }
         }
@@ -111,7 +131,13 @@ Page {
                     folderModel.folder = filePath
                 else
                 {
-                    pathText.text = filePath
+                    if (certType == 0)
+                        pathText.text = filePath
+                    else
+                        if (certType == 1)
+                            pub.text = filePath
+                        else
+                            priv.text = filePath
                     fileView.visible = false
                 }
             }

@@ -16,6 +16,7 @@ Page {
     id: addCertificates
 
     property string name
+    property bool certType
 
     headerTools: HeaderToolsLayout{
         id: header
@@ -25,7 +26,7 @@ Page {
 
     Column
     {
-        visible: !fileView.visible
+        visible: certType
         anchors.fill: parent
         spacing: Theme.itemSpacingSmall
 
@@ -49,6 +50,47 @@ Page {
             onClicked:
             {
                 cert.removeCertificate(name, 0)
+                pageStack.pop()
+            }
+        }
+    }
+
+    Column
+    {
+        visible: !certType
+        anchors.fill: parent
+        spacing: Theme.itemSpacingSmall
+
+        Label
+        {
+            text: "Name: " + name
+        }
+
+        Text
+        {
+            color: "white"
+            text: "Path to public key: " + cert.getPathByName(name, 1)
+            width: parent.width
+            font.pointSize: 30
+            wrapMode: Text.Wrap
+        }
+
+        Text
+        {
+            color: "white"
+            text: "Path to private key: " + cert.getPathByName(name, 2)
+            width: parent.width
+            font.pointSize: 30
+            wrapMode: Text.Wrap
+        }
+
+        Button
+        {
+            text: "Delete"
+            onClicked:
+            {
+                cert.removeCertificate(name, 1)
+                cert.removeCertificate(name, 2)
                 pageStack.pop()
             }
         }

@@ -78,6 +78,20 @@ QStringList Certificates::certList()
     return doc.object().keys();
 }
 
+QStringList Certificates::certKeyList()
+{
+    QString location = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QDir().mkpath(location + "/cert");
+    QString Path = location + "/cert/public.json";
+    QFile f(Path);
+    f.open(QFile::ReadOnly);
+    QJsonDocument doc = QJsonDocument().fromJson(f.readAll());
+
+    qDebug() << doc.object().keys();
+
+    return doc.object().keys();
+}
+
 void Certificates::removeCertificate(QString name, int type)
 {
     QString location = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);

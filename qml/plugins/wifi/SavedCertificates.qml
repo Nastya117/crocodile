@@ -68,7 +68,7 @@ Page {
                     label: modelData
                     onClicked:
                     {
-                        pageStack.push(Qt.resolvedUrl("CertificateInfo.qml"),{name: modelData})
+                        pageStack.push(Qt.resolvedUrl("CertificateInfo.qml"),{name: modelData, certType: true})
                     }
                 }
             }
@@ -97,9 +97,13 @@ Page {
 
             Repeater{
                 width: parent.width
-                model: 3
+                model: cert.certKeyList
                 delegate: ListViewItemWithActions{
-                    label: qsTr("certificate ") + modelData
+                    label: modelData
+                    onClicked:
+                    {
+                        pageStack.push(Qt.resolvedUrl("CertificateInfo.qml"),{name: modelData, certType: false})
+                    }
                 }
             }
 
