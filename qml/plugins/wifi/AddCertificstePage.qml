@@ -24,82 +24,72 @@ Page {
         title: qsTr("Add Certificate")
     }
 
-
-    Column
-    {
+    Column{
         visible: !fileView.visible
         anchors.fill: parent
         spacing: Theme.itemSpacingSmall
 
-
-        TextField
-        {
+        TextField{
             id: nameText
             placeholderText: qsTr("Name")
         }
 
-        TextField
-        {
+        TextField{
             visible: certificateType
             id: pathText
             placeholderText: qsTr("Select file")
-            MouseArea
-            {
+            MouseArea{
                 anchors.fill: parent
-                onClicked:
-                {
+                onClicked: {
                     fileView.visible = true
                     certType = 0
                 }
             }
         }
 
-
-        TextField
-        {
+        TextField{
             id: pub
             visible: !certificateType
             placeholderText: qsTr("Path to public key")
-            MouseArea
-            {
+            MouseArea{
                 anchors.fill: parent
-                onClicked:
-                {
+                onClicked: {
                     fileView.visible = true
                     certType = 1
                 }
             }
         }
 
-
-        TextField
-        {
+        TextField{
             id: priv
             visible: !certificateType
             placeholderText: qsTr("Path to private key")
-            MouseArea
-            {
+            MouseArea{
                 anchors.fill: parent
-                onClicked:
-                {
+                onClicked: {
                     fileView.visible = true
                     certType = 2
                 }
             }
         }
 
+        TextField{
+            id: privPass
+            visible: !certificateType
+            placeholderText: qsTr("Private key password")
+            echoMode: TextInput.Password
+        }
 
         Button{
             height: Theme.itemHeightSmall
             text: qsTr("Save")
-            onClicked:
-            {
+            onClicked: {
                 if (certificateType)
                     cert.addCertificate(nameText.text, pathText.text, 0)
-                else
-                {
+                else{
                     cert.addCertificate(nameText.text, pub.text, 1)
                     cert.addCertificate(nameText.text, priv.text, 2)
+                    cert.addCertificate(nameText.text, privPass.text, 3)
                 }
 
                 pageStack.pop()
@@ -107,13 +97,9 @@ Page {
         }
     }
 
-
-
-    FolderListModel {
+    FolderListModel{
         id: folderModel
     }
-
-
 
     ListView{
         property string prevPath
@@ -125,12 +111,10 @@ Page {
         delegate:
             ListViewItemWithActions{
             label: fileName
-            onClicked:
-            {
+            onClicked: {
                 if (fileIsDir)
                     folderModel.folder = filePath
-                else
-                {
+                else{
                     if (certType == 0)
                         pathText.text = filePath
                     else

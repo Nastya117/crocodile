@@ -13,21 +13,28 @@ Certificates::Certificates(QObject *)
 
 }
 
-void Certificates::addCertificate(QString name, QString path, int type)
+QString Certificates::getPath(int type)
 {
-    QString location = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString location = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
     QDir().mkpath(location + "/cert");
-    QString Path;
     if (type == 0)
-        Path = location + "/cert/file.json";
+        return location + "/cert/CA.json";
     else
         if (type == 1)
-            Path = location + "/cert/public.json";
+            return location + "/cert/public.json";
     else
             if (type == 2)
-                Path = location + "/cert/private.json";
+                return location + "/cert/private.json";
+    else
+                if (type == 3)
+                    return location + "/cert/privatepass.json";
 
-    QFile f(Path);
+}
+
+void Certificates::addCertificate(QString name, QString path, int type)
+{
+
+    QFile f(getPath(type));
     f.open(QFile::ReadOnly | QFile::Text);
 
     QJsonDocument doc = QJsonDocument::fromJson(f.readAll());
@@ -46,18 +53,7 @@ void Certificates::addCertificate(QString name, QString path, int type)
 
 QString Certificates::getPathByName(QString name, int type)
 {
-    QString location = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-    QDir().mkpath(location + "/cert");
-    QString Path;
-    if (type == 0)
-        Path = location + "/cert/file.json";
-    else
-        if (type == 1)
-            Path = location + "/cert/public.json";
-    else
-            if (type == 2)
-                Path = location + "/cert/private.json";
-    QFile f(Path);
+    QFile f(getPath(type));
     f.open(QFile::ReadOnly);
     QJsonDocument doc = QJsonDocument().fromJson(f.readAll());
     QVariantMap map = doc.toVariant().toMap();
@@ -66,9 +62,9 @@ QString Certificates::getPathByName(QString name, int type)
 
 QStringList Certificates::certList()
 {
-    QString location = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString location = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
     QDir().mkpath(location + "/cert");
-    QString Path = location + "/cert/file.json";
+    QString Path = location + "/cert/CA.json";
     QFile f(Path);
     f.open(QFile::ReadOnly);
     QJsonDocument doc = QJsonDocument().fromJson(f.readAll());
@@ -80,7 +76,7 @@ QStringList Certificates::certList()
 
 QStringList Certificates::certKeyList()
 {
-    QString location = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString location = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
     QDir().mkpath(location + "/cert");
     QString Path = location + "/cert/public.json";
     QFile f(Path);
@@ -94,17 +90,7 @@ QStringList Certificates::certKeyList()
 
 void Certificates::removeCertificate(QString name, int type)
 {
-    QString location = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-    QString Path;
-    if (type == 0)
-        Path = location + "/cert/file.json";
-    else
-        if (type == 1)
-            Path = location + "/cert/public.json";
-    else
-            if (type == 2)
-                Path = location + "/cert/private.json";
-    QFile f(Path);
+    QFile f(getPath(type));
     f.open(QFile::ReadOnly | QFile::Text);
 
     QJsonDocument doc = QJsonDocument::fromJson(f.readAll());

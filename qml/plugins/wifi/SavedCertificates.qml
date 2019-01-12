@@ -12,24 +12,15 @@ import "../../components"
 import Certificates 1.0
 
 Page {
-
-
-    headerTools: HeaderToolsLayout {
+    headerTools: HeaderToolsLayout{
         id: header
         showBackButton: true;
         title: qsTr("Manage saved certificates")
     }
 
-
-    Component.onCompleted:
-    {
+    Component.onCompleted: {
         cert.getCertList()
     }
-
-
-
-
-
 
     Flickable{
         width: parent.width
@@ -60,29 +51,24 @@ Page {
                 height: 1
             }
 
-
             Repeater{
                 width: parent.width
                 model: cert.certList
                 delegate: ListViewItemWithActions{
                     label: modelData
-                    onClicked:
-                    {
+                    onClicked: {
                         pageStack.push(Qt.resolvedUrl("CertificateInfo.qml"),{name: modelData, certType: true})
                     }
                 }
             }
 
-
             ListViewItemWithActions{
                 label: qsTr("Add")
-                onClicked:
-                {
+                onClicked: {
                     pageStack.push(Qt.resolvedUrl("AddCertificstePage.qml"),{certificateType: true})
                 }
 
             }
-
 
             Text{
                 text: qsTr("client key")
@@ -100,8 +86,7 @@ Page {
                 model: cert.certKeyList
                 delegate: ListViewItemWithActions{
                     label: modelData
-                    onClicked:
-                    {
+                    onClicked: {
                         pageStack.push(Qt.resolvedUrl("CertificateInfo.qml"),{name: modelData, certType: false})
                     }
                 }
@@ -109,8 +94,7 @@ Page {
 
             ListViewItemWithActions{
                 label: qsTr("Add")
-                onClicked:
-                {
+                onClicked: {
                     pageStack.push(Qt.resolvedUrl("AddCertificstePage.qml"),{certificateType: false})
                 }
 

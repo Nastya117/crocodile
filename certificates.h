@@ -11,6 +11,7 @@ class Certificates : public QObject
     Q_PROPERTY(QStringList certKeyList READ certKeyList NOTIFY certListChanged)
 public:
     Certificates(QObject* = nullptr);
+    QString getPath(int type);
 
 public slots:
     void addCertificate(QString name, QString path, int type);

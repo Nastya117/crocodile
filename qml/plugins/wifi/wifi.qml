@@ -139,15 +139,6 @@ Page {
             }
 
             ListViewItemWithActions{
-                label: qsTr("Add network")
-                onClicked: {
-                    pageStack.push(Qt.resolvedUrl("AddNetworkPage.qml"));
-                }
-            }
-
-
-
-            ListViewItemWithActions{
                 label: qsTr("Manage saved certificates")
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("SavedCertificates.qml"));

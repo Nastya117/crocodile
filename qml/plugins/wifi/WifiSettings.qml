@@ -129,8 +129,9 @@ Page {
                     {
                         if (modelData.eapMethod == NetworkService.EapTLS)
                         {
-                            modelData.publicKeyFile = cert.getPathByName(certificate.text, 1)
+                            modelData.clientCertFile = cert.getPathByName(certificate.text, 1)
                             modelData.privateKeyFile = cert.getPathByName(certificate.text, 2)
+                            modelData.privateKeyPassphrase = cert.getPathByName(certificate.text, 3)
                         }
                         else
                         modelData.caCertFile = cert.getPathByName(certificate.text, 0)

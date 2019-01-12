@@ -24,73 +24,71 @@ Page {
         title: qsTr("Certificate Info")
     }
 
-    Column
-    {
+    Column{
         visible: certType
         anchors.fill: parent
         spacing: Theme.itemSpacingSmall
 
-        Label
-        {
+        Label{
             text: "Name: " + name
         }
 
-        Text
-        {
+        Text{
             color: "white"
             text: "Path: " + cert.getPathByName(name, 0)
             width: parent.width
-            font.pointSize: 30
+            font.pointSize: Theme.fontSizeSmall
             wrapMode: Text.Wrap
         }
 
-        Button
-        {
+        Button{
             text: "Delete"
-            onClicked:
-            {
+            onClicked: {
                 cert.removeCertificate(name, 0)
                 pageStack.pop()
             }
         }
     }
 
-    Column
-    {
+    Column{
         visible: !certType
         anchors.fill: parent
         spacing: Theme.itemSpacingSmall
 
-        Label
-        {
+        Label{
             text: "Name: " + name
         }
 
-        Text
-        {
+        Text{
             color: "white"
             text: "Path to public key: " + cert.getPathByName(name, 1)
             width: parent.width
-            font.pointSize: 30
+            font.pointSize: Theme.fontSizeSmall
             wrapMode: Text.Wrap
         }
 
-        Text
-        {
+        Text{
             color: "white"
             text: "Path to private key: " + cert.getPathByName(name, 2)
             width: parent.width
-            font.pointSize: 30
+            font.pointSize: Theme.fontSizeSmall
             wrapMode: Text.Wrap
         }
 
-        Button
-        {
+        Text{
+            color: "white"
+            text: "Private key password: " + cert.getPathByName(name, 3)
+            width: parent.width
+            font.pointSize: Theme.fontSizeSmall
+            wrapMode: Text.Wrap
+        }
+
+        Button{
             text: "Delete"
-            onClicked:
-            {
+            onClicked: {
                 cert.removeCertificate(name, 1)
                 cert.removeCertificate(name, 2)
+                cert.removeCertificate(name, 3)
                 pageStack.pop()
             }
         }
