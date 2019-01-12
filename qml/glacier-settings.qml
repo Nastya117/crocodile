@@ -28,6 +28,7 @@ import org.nemomobile.glacier.settings 1.0
 import org.nemomobile.systemsettings 1.0
 
 import "components"
+import Certificates 1.0
 
 ApplicationWindow{
     id: main
@@ -83,5 +84,9 @@ ApplicationWindow{
                 section.property: "category"
             }
         }
+    }
+
+    Certificates{
+            id: cert
     }
 }

@@ -27,6 +27,7 @@ import MeeGo.Connman 0.2
 
 import "../../components"
 
+
 Page {
     id: wifiPage
 
@@ -36,12 +37,14 @@ Page {
         title: qsTr("WiFi settings")
     }
 
+
     TechnologyModel {
         id: networkingModel
         name: "wifi"
         property bool sheetOpened
         property string networkName
     }
+
 
     SettingsColumn{
         id: actionColumn
@@ -132,6 +135,13 @@ Page {
                 label: qsTr("Manage saved networks")
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("SavedServices.qml"));
+                }
+            }
+
+            ListViewItemWithActions{
+                label: qsTr("Manage saved certificates")
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("SavedCertificates.qml"));
                 }
             }
         }

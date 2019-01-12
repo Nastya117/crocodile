@@ -32,6 +32,7 @@
 
 #include "models/settingsmodel.h"
 #include "models/settingsproxymodel.h"
+#include "certificates/certificates.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
@@ -48,6 +49,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     qmlRegisterType<SettingsModel>("org.nemomobile.glacier.settings",1,0,"SettingsModel");
     qmlRegisterType<SettingsProxyModel>("org.nemomobile.glacier.settings",1,0,"SettingsProxyModel");
+    qmlRegisterType<Certificates>("Certificates", 1, 0, "Certificates");
 
     QQuickWindow *window = GlacierApp::showWindow();
     window->setTitle(QObject::tr("Settings"));

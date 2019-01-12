@@ -8,12 +8,14 @@ SOURCES += \
     src/main.cpp \
     src/models/settingsmodel.cpp \
     src/models/imagesmodel.cpp \
-    src/models/settingsproxymodel.cpp
+    src/models/settingsproxymodel.cpp \
+    src/certificates/certificates.cpp
 
 HEADERS += \
     src/models/settingsmodel.h \
     src/models/imagesmodel.h \
-    src/models/settingsproxymodel.h
+    src/models/settingsproxymodel.h \
+    src/certificates/certificates.h
 
 QT += qml quick
 

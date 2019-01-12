@@ -26,6 +26,7 @@ import QtQuick.Controls.Styles.Nemo 1.0
 import MeeGo.Connman 0.2
 
 import "../../components"
+import Certificates 1.0
 
 Page {
     id: wifiSettingsPage
@@ -75,17 +76,67 @@ Page {
     }
 
     SettingsColumn{
+
+        Label{
+            visible: !view.visible
+            id: nameLabel
+            text: modelData.security[0]
+            anchors{
+                left: parent.left
+            }
+            wrapMode: Text.Wrap
+            font.bold: true
+        }
+
         TextField{
+            visible: modelData.security[0] == "wep" || modelData.security[0] == "psk"
             id: passphrase
             text: modelData.passphrase
         }
 
+        TextField{
+            visible: !passphrase.visible && !view.visible && modelData.security[0] == "ieee8021x"
+            id: certificate
+            placeholderText: "Select sertificate"
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    if (modelData.eapMethod == NetworkService.EapTLS)
+                        view.model = cert.certKeyList
+                    else
+                        view.model = cert.certList
+                    view.visible = true
+                }
+            }
+        }
+
+
+
         Button{
+            visible: !view.visible
             id: connectButton
             height: Theme.itemHeightSmall
 
             onClicked: {
-                modelData.passphrase = passphrase.text;
+                if (modelData.security[0] == "wep" || modelData.security[0] == "psk")
+                {
+                    modelData.passphrase = passphrase.text;
+                }
+                else
+                    if (modelData.security[0] == "ieee8021x")
+                    {
+                        if (modelData.eapMethod == NetworkService.EapTLS)
+                        {
+                            modelData.clientCertFile = cert.getPathByName(certificate.text, 1)
+                            modelData.privateKeyFile = cert.getPathByName(certificate.text, 2)
+                            modelData.privateKeyPassphrase = cert.getPathByName(certificate.text, 3)
+                        }
+                        else
+                        modelData.caCertFile = cert.getPathByName(certificate.text, 0)
+                    }
+
                 modelData.requestConnect();
                 networkingModel.networkName.text = modelData.name;
                 pageStack.pop();
@@ -93,6 +144,24 @@ Page {
             text: qsTr("Connect")
         }
     }
+
+
+    ListView
+    {
+        id: view
+        visible: false
+        anchors.fill: parent
+        delegate: ListViewItemWithActions{
+            label: modelData
+            onClicked:
+            {
+                certificate.text = modelData
+                view.visible = false
+            }
+        }
+    }
+
+
 
     Connections {
         target: modelData
